@@ -1,0 +1,65 @@
+name: Check the PR content
+
+on:
+  pull_request:
+
+jobs:
+  check-PR-content:
+    name: check-PR-content
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.check-content.outputs.result }}
+    steps:
+      - name: fetch repository
+        uses: actions/checkout@v3
+        with:
+          repository: linlin-s/ion-schema-rust
+          ref: main
+          path: ion-schema-rust-current
+
+      - name: check the last commit content
+        id: check-content
+        run: |
+          cd ion-schema-rust-current
+          log=$(git log -1 --raw --name-only)
+          modifiedFiles=$(grep wasm-schema-sandbox/ <<< "$log")
+          if [ -z "$modifiedFiles" ]; then echo "::set-output name=result::fail"; else echo "::set-output name=result::pass"; fi
+
+  build-wasm:
+    name: build-wasm
+    needs: check-PR-content
+    if: ${{ needs.check-PR-content.outputs.output1 == 'pass' }}
+    runs-on: ubantu-lastest
+    steps:
+      - name: fetch-ion-schema-rust
+        uses: actions/checkout@v3
+        with:
+          repository: linlin-s/ion-schema-rust
+          ref: main
+          path: ion-schema-rust-current
+
+      - name: Build
+        run: |
+          cd ion-schema-rust-current
+          wasm-pack build --target web
+
+      - name: fetch ion schema repository
+        uses: actions/checkout@v3
+        with:
+          repository: linlin-s/ion-schema
+          ref: gh-pages
+          path: ion-schema
+
+      - name:
+        run: mv -f ion-schema-rust-current/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts ion-schema/assets
+
+      - name: create PR under ion schema repository
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: update wasm files
+          title: Update wasm files
+          branch: update-wasm-files
+
+          
+          
+
