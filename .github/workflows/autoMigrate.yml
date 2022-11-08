@@ -44,7 +44,7 @@ jobs:
           version: 'latest'
       - name: Build
         run: |
-          cd ion-schema-rust-current
+          cd ion-schema-rust-current/wasm-schema-sandbox
           wasm-pack build --target web
 
       - name: fetch ion schema repository
