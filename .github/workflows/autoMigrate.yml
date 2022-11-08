@@ -30,7 +30,7 @@ jobs:
     name: build-wasm
     needs: check-PR-content
     if: ${{ needs.check-PR-content.outputs.output1 == 'pass' }}
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     steps:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
