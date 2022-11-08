@@ -38,7 +38,10 @@ jobs:
           repository: linlin-s/ion-schema-rust
           ref: main
           path: ion-schema-rust-current
-
+      - name: Download wasm
+        uses: jetli/wasm-pack-action@v0.3.0
+        with:
+          version: 'latest'
       - name: Build
         run: |
           cd ion-schema-rust-current
