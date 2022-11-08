@@ -1,7 +1,7 @@
 name: Check the PR content
 
 on:
-  pull_request:
+  push:
 
 jobs:
   check-PR-content:
