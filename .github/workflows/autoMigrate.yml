@@ -23,13 +23,14 @@ jobs:
           cd ion-schema-rust-current
           log=$(git log -1 --raw --name-only)
           modifiedFiles=$(grep wasm-schema-sandbox/ <<< "$log")
-          if [ -z "$modifiedFiles" ]; then echo "::set-output name=result::fail"; else echo "::set-output name=result::pass"; fi
+          echo $modifiedFileds
+          if [[ -z "$modifiedFiles" ]]; then echo "::set-output name=result::fail"; else echo "::set-output name=result::pass"; fi
 
   build-wasm:
     name: build-wasm
     needs: check-PR-content
     if: ${{ needs.check-PR-content.outputs.output1 == 'pass' }}
-    runs-on: ubantu-lastest
+    runs-on: ubuntu-lastest
     steps:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
