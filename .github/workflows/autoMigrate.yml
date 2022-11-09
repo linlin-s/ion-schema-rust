@@ -37,6 +37,7 @@ jobs:
         with:
           repository: linlin-s/ion-schema-rust
           ref: main
+          submodules: true
           path: ion-schema-rust-current
       - name: Download wasm
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
