@@ -37,8 +37,6 @@ jobs:
         with:
           repository: amzn/ion-schema-rust
           ref: main
-          submodules: true
-          lfs: true
 
       - name: Download wasm
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -47,6 +45,7 @@ jobs:
         run: |
           ls
           cd wasm-schema-sandbox && wasm-pack build --target web
+          cd /home/runner/work/ion-schema-rust
 
       - name: fetch ion schema repository
         uses: actions/checkout@v3
@@ -55,8 +54,8 @@ jobs:
           ref: gh-pages
           path: ion-schema
 
-      - name:
-        run: mv -f ion-schema-rust-current/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts ion-schema/assets
+      - name: Moving files to another repository
+        run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema/assets
 
       - name: create PR under ion schema repository
         uses: peter-evans/create-pull-request@v4
