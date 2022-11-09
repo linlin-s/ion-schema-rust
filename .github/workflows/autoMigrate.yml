@@ -39,14 +39,14 @@ jobs:
           ref: main
           submodules: true
           lfs: true
-          path: ion-schema-rust-current
+
       - name: Download wasm
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
         run: |
-          cd ion-schema-rust-current/wasm-schema-sandbox
-          wasm-pack build --target web
+          ls
+          cd wasm-schema-sandbox && wasm-pack build --target web
 
       - name: fetch ion schema repository
         uses: actions/checkout@v3
