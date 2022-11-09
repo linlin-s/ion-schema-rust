@@ -43,7 +43,6 @@ jobs:
 
       - name: Build
         run: |
-          ls
           cd wasm-schema-sandbox && wasm-pack build --target web
           cd /home/runner/work/ion-schema-rust
 
@@ -55,7 +54,7 @@ jobs:
           path: ion-schema
 
       - name: Moving files to another repository
-        run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema/assets
+        run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
 
       - name: create PR under ion schema repository
         uses: peter-evans/create-pull-request@v4
