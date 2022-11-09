@@ -62,6 +62,8 @@ jobs:
           commit-message: update wasm files
           title: Update wasm files
           branch: update-wasm-files
+          path: /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
+          base: linlin-s/ion-schema
 
           
           
