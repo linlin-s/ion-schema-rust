@@ -35,9 +35,10 @@ jobs:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
         with:
-          repository: linlin-s/ion-schema-rust
+          repository: amzn/ion-schema-rust
           ref: main
           submodules: true
+          lfs: true
           path: ion-schema-rust-current
       - name: Download wasm
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
