@@ -52,6 +52,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: linlin-s/ion-schema
+          token: ${{ github.token }}
           ref: gh-pages
           path: ion-schema
 
