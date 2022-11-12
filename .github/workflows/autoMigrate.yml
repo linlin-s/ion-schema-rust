@@ -50,16 +50,20 @@ jobs:
 
       - name: fetch ion schema repository
         uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           repository: linlin-s/ion-schema
-          token: ${{ github.token }}
           ref: gh-pages
           path: ion-schema
+
 
       - name: Moving files to another repository
         run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
 
       - name: create PR under ion schema repository
+        env:
+
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: update wasm files
