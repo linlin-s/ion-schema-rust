@@ -63,7 +63,7 @@ jobs:
 
       - name: create PR under ion schema repository
         env:
-
+          GITHUB_TOKEN: ${{ github.token }}
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: update wasm files
