@@ -31,6 +31,8 @@ jobs:
     needs: check-PR-content
     if: ${{ needs.check-PR-content.outputs.output1 == 'pass' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
