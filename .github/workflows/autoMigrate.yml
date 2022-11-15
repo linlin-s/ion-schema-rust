@@ -31,46 +31,61 @@ jobs:
     needs: check-PR-content
     if: ${{ needs.check-PR-content.outputs.output1 == 'pass' }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
         with:
           repository: amzn/ion-schema-rust
           ref: main
+          path: ion-schema-rust
 
       - name: Download wasm
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
         run: |
-          cd wasm-schema-sandbox && wasm-pack build --target web
-          cd /home/runner/work/ion-schema-rust
+          cd ion-schema-rust/wasm-schema-sandbox && wasm-pack build --target web
 
+      - name: Upload the files to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: wasm-files
+          path: |
+            ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.js
+            ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema_bg.wasm.d.ts
+            ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema_bg.wasm
+            ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts
+
+  Create-PR:
+    name: Create-PR
+    needs: build-wasm
+    runs-on: ubuntu-latest
+    steps:
       - name: fetch ion schema repository
         uses: actions/checkout@v3
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           repository: linlin-s/ion-schema
           ref: gh-pages
           path: ion-schema
 
+      - name: Download the files from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: wasm-files
 
-      - name: Moving files to another repository
-        run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm-schema-sandbox/pkg/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          target_branch: newBranch
+          commit_prefix: "Upload wasm files after rebuild"
 
       - name: create PR under ion schema repository
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        uses: peter-evans/create-pull-request@v4
+        uses: devops-infra/action-pull-request@master
         with:
-          commit-message: update wasm files
-          title: Update wasm files
-          branch: update-wasm-files
-          path: /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
-          base: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          body: "Auto PR"
+          title: ${{ github.event.commits[0].message }}
 
           
           
