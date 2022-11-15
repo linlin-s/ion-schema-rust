@@ -35,7 +35,7 @@ jobs:
       - name: fetch-ion-schema-rust
         uses: actions/checkout@v3
         with:
-          repository: amzn/ion-schema-rust
+          repository: linlin-s/ion-schema-rust
           ref: main
           path: ion-schema-rust
 
@@ -72,6 +72,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: wasm-files
+
+      - run: mv -f wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
 
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@master
