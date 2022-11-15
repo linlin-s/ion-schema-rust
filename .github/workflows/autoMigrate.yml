@@ -61,6 +61,11 @@ jobs:
     needs: build-wasm
     runs-on: ubuntu-latest
     steps:
+      - name: Download the files from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: wasm-files
+
       - name: fetch ion schema repository
         uses: actions/checkout@v3
         with:
@@ -68,19 +73,8 @@ jobs:
           ref: gh-pages
           path: ion-schema
 
-      - name: Download the files from artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: wasm-files
+      - run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
 
-      - run: mv -f wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
-      - name: Check the GitHub status and push
-        run: |
-          cd /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
-          git status
-          git add *
-          git commit -m "Upload wasm files."
-          git remote -v
           
 
       
