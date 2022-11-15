@@ -73,14 +73,14 @@ jobs:
           ref: gh-pages
           path: ion-schema
 
-      - run: mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
+      - run: |
+         mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
+          
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: Upload files
-          target_branch: new
-          
-
+          target_branch: newBranch
+          commit_prefix: "Upload wasm files after rebuild"
       
 
