@@ -77,10 +77,10 @@ jobs:
          mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
           
       - name: Commit and push changes
-        uses: devops-infra/action-commit-push@master
+        uses: EndBug/add-and-commit@v9
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: newBranch
-          commit_prefix: "Upload wasm files after rebuild"
-      
+          add: '/home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets/wasm_ion_schema.d.ts'
+          cwd: '/home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema'
+          new_branch: newBranch
+
 
