@@ -75,12 +75,18 @@ jobs:
 
       - run: |
          mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
-          
-      - name: Commit and push changes
-        uses: EndBug/add-and-commit@v9
+      - run: |
+         cd ion-schema 
+         sudo chown -R g+w
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
         with:
-          add: '/home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets/wasm_ion_schema.d.ts'
-          cwd: '/home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema'
-          new_branch: newBranch
-
+          commit-message: Addn files
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
+          signoff: false
+          branch: example
+          delete-branch: true
+          title: '[Example] Update report'
+          base: gh-pages
 
