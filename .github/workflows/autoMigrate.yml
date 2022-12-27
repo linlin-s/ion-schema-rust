@@ -78,7 +78,7 @@ jobs:
       - run: |
          cd ion-schema 
          git status
-         git add -A
+         git add -f /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets/wasm_ion_schema.d.ts
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
