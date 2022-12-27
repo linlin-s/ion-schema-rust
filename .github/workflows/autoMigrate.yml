@@ -77,16 +77,15 @@ jobs:
          mv -f /home/runner/work/ion-schema-rust/ion-schema-rust/wasm_ion_schema.d.ts /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema/assets
       - run: |
          cd ion-schema 
-         sudo chown -R g+w
+         git status
+         git add -A
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: Addn files
+          commit-message: Add files
           token: ${{ secrets.GITHUB_TOKEN }}
           path: /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
-          signoff: false
           branch: example
-          delete-branch: true
           title: '[Example] Update report'
           base: gh-pages
 
