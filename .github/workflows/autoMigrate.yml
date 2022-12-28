@@ -83,7 +83,6 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Add files
-          token: ${{ secrets.ACCESS_TOKEN }}
           path: /home/runner/work/ion-schema-rust/ion-schema-rust/ion-schema
           branch: example
           title: '[Example] Update report'
